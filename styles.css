@@ -1,0 +1,404 @@
+/* this defines all of the colors, widths, and more.  don't mess with it please */
+
+:root {
+    --glOrange: #FFA500;
+    --glBlue: #5f5ffa;
+    --glWhite: #ffffff;
+    --bgColor: #333;
+    --glRed: #FF0000;
+    --glBlack: #000000;
+}
+
+
+/* upper NavBar */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--glOrange);
+}
+
+ul li {
+    float: left;
+}
+
+.myaccount {
+    float: right;
+}
+
+ul li a {
+    display: block;
+    color: var(--glWhite);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+
+/* Change the link color to #111 (black) on hover */
+
+ul li a:hover {
+    background-color: var(--glBlue);
+}
+
+
+/*login screen*/
+
+input[type=text],
+select,
+textarea {
+    width: 100%;
+    /* Full width */
+    padding: 12px;
+    /* Some padding */
+    border: 1px solid var(--glWhite);
+    /* Gray border */
+    border-radius: 4px;
+    /* Rounded borders */
+    box-sizing: border-box;
+    /* Make sure that padding and width stays in place */
+    margin-top: 6px;
+    /* Add a top margin */
+    margin-bottom: 16px;
+    /* Bottom margin */
+    resize: vertical/* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=email],
+select,
+textarea {
+    width: 100%;
+    /* Full width */
+    padding: 12px;
+    /* Some padding */
+    border: 1px solid var(--glWhite);
+    /* Gray border */
+    border-radius: 4px;
+    /* Rounded borders */
+    box-sizing: border-box;
+    /* Make sure that padding and width stays in place */
+    margin-top: 6px;
+    /* Add a top margin */
+    margin-bottom: 16px;
+    /* Bottom margin */
+    resize: vertical/* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=number],
+select,
+textarea {
+    width: 100%;
+    /* Full width */
+    padding: 12px;
+    /* Some padding */
+    border: 1px solid var(--glWhite);
+    /* Gray border */
+    border-radius: 4px;
+    /* Rounded borders */
+    box-sizing: border-box;
+    /* Make sure that padding and width stays in place */
+    margin-top: 6px;
+    /* Add a top margin */
+    margin-bottom: 16px;
+    /* Bottom margin */
+    resize: vertical/* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=password],
+select,
+textarea {
+    width: 100%;
+    /* Full width */
+    padding: 12px;
+    /* Some padding */
+    border: 1px solid var(--glWhite);
+    /* Gray border */
+    border-radius: 4px;
+    /* Rounded borders */
+    box-sizing: border-box;
+    /* Make sure that padding and width stays in place */
+    margin-top: 6px;
+    /* Add a top margin */
+    margin-bottom: 16px;
+    /* Bottom margin */
+    resize: vertical/* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+
+/* Style the submit button with a specific background color etc */
+
+input[type=submit] {
+    background-color: var(--glOrange);
+    color: var(--glWhite);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* When moving the mouse over the submit button, add a darker green color */
+
+input[type=submit]:hover {
+    background-color: var(--glBlue);
+}
+
+.container {
+    border-radius: 5px;
+    background-color: var(--bgColor);
+    padding: 20px;
+}
+
+.failed_1 {
+    color: var(--glRed);
+}
+
+
+/* dropdown styles */
+
+.dropbtn {
+    background-color: var(--bgColor);
+    color: var(--glWhite);
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--bgColor);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: var(--glBlack);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--glOrange)
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: var(--glOrange);
+}
+
+.notification {
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.notification .badge {
+    position: relative;
+    padding: 5px 10px;
+    right: -5;
+    border-radius: 50%;
+    background-color: blue;
+    color: var(--glWhite);
+}
+
+.welcomeHeader {
+    color: var(--glOrange);
+    font-size: 250%;
+    padding-top: 255px;
+    display: block;
+    text-align: center;
+}
+
+.viewPointsHeader {
+    color: var(--glOrange);
+    font-size: 250%;
+    padding-top: 255px;
+    display: block;
+    text-align: center;
+}
+
+.viewPointsMessage {
+    color: var(--glBlue);
+    font-size: 200%;
+    padding-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+tr {
+    color: var(--glWhite);
+    font-size: 125%;
+    text-align: center;
+}
+
+
+/*yes I tried chaning the thead tag, but because reasons it does not work, this is sadly the best way to do it */
+
+#theadOverider {
+    color: var(--glOrange);
+    font-weight: bold;
+    font-size: 125%;
+    text-align: center;
+}
+
+.verifyActivityHeader {
+    color: var(--glOrange);
+    font-size: 250%;
+    padding-top: 255px;
+    display: block;
+    text-align: center;
+}
+
+.verifyActivityMessage {
+    color: var(--glBlue);
+    font-size: 200%;
+    padding-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+button {
+    background-color: var(--glOrange);
+    color: var(--glWhite);
+    padding: 12px 20px;
+    border: var(--glWhite);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--glBlue);
+}
+
+label {
+    color: var(--glWhite);
+    font-size: 125%;
+    padding-bottom: 25px;
+}
+
+input[type=text] {
+    background-color: var(--bgColor);
+    border-color: var(--glBlue);
+    color: var(--glWhite);
+}
+
+input[type=number] {
+    background-color: var(--bgColor);
+    border-color: var(--glBlue);
+    color: var(--glWhite);
+}
+
+input[type=password] {
+    background-color: var(--bgColor);
+    border-color: var(--glBlue);
+    color: var(--glWhite);
+}
+
+
+/* I hate that I have to do this but here we are.  If you don't like this, it's easy to change :) */
+
+html {
+    background-color: var(--bgColor);
+}
+
+.custom_dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+a:hover,
+.custom_dropdown:hover .dropbtn {
+    background-color: var(--glBlue);
+}
+
+.custom_dropdown_content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.custom_dropdown_content a {
+    float: none;
+    color: var(--glBlack);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    background-color: var(--glOrange);
+}
+
+.custom_dropdown_content a:hover {
+    background-color: var(--glBlue);
+}
+
+.custom_dropdown:hover .custom_dropdown_content {
+    display: block;
+}
+
+.notext {
+    font-size: 0px;
+}
+
+.notfound {
+    display: none;
+}
+
+button:disabled,
+button[disabled] {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.normalHeader {
+    color: var(--glOrange);
+    font-size: 250%;
+    display: block;
+    text-align: center;
+}
+
+.warningHeader {
+    color: red;
+    font-size: 250%;
+    display: block;
+    text-align: center;
+}
+
+.goodHeader {
+    color: green;
+    font-size: 250%;
+    display: block;
+    text-align: center;
+}
+
+.about {
+    color: var(--glOrange);
+    font-size: 250%;
+    display: block;
+}
+
+a {
+    color: white;
+}
