@@ -2,6 +2,7 @@
 
 function get_points($u_id)
 {
+	global $COOKIE_USER;
 	try {
 
 		$connection = create_PDO_connection();
@@ -11,10 +12,12 @@ function get_points($u_id)
         JOIN Activities ON Activities.Id = UserActivity.ActivityId
         JOIN Users ON Users.Id = UserActivity.UserId
         WHERE Users.Id = :Id
-        AND UserActivity.Approved = 1;";
+        AND UserActivity.Approved = 1
+		AND Activities.TeamNumber = :teamnum;";
 
 		$statement = $connection->prepare($sql);
 		$statement->bindParam(':Id', $u_id, PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
 		$statement->execute();
 
 		$result = $statement->fetchAll();

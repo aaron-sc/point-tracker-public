@@ -1,3 +1,8 @@
+<html>
+<title> About </title>
+<link rel="icon" type="image/png" href="Templates/title_bar_image.png">
+</html>
+
 <?php
 require "common.php";
 deny_if_not_logged_in($COOKIE_USER);
@@ -6,8 +11,7 @@ echo do_navbar($isADMIN, 1);
 
 <!DOCTYPE html>
 <html>
-<title> About </title>
-<link rel="icon" type="image/png" href="Templates/title_bar_image.png">
+
 
 
 <body>

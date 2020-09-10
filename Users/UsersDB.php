@@ -4,7 +4,7 @@
 
 
 
-function sign_up_user($uname, $pswd, $admin, $fName, $lName)
+function sign_up_user($uname, $pswd, $admin, $fName, $lName, $teamnum)
 {
 	try {
 
@@ -15,8 +15,8 @@ function sign_up_user($uname, $pswd, $admin, $fName, $lName)
 		$ADMIN = $admin;
 
 		$new_user = "INSERT INTO Users 
-		(Uname, Password, Admin, FName, LName) VALUES 
-		(:username, :password, :admin, :FName, :LName);";
+		(Uname, Password, Admin, FName, LName, TeamNumber) VALUES 
+		(:username, :password, :admin, :FName, :LName, :teamnum);";
 
 		$statement = $connection->prepare($new_user);
 
@@ -25,6 +25,7 @@ function sign_up_user($uname, $pswd, $admin, $fName, $lName)
 		$statement->bindParam(':LName', $lName, PDO::PARAM_STR);
 		$statement->bindParam(':password', $PASSWORD, PDO::PARAM_STR);
 		$statement->bindParam(':admin', $ADMIN, PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', $teamnum, PDO::PARAM_STR);
 		$statement->execute();
 
 		return TRUE;

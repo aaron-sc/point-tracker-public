@@ -1,10 +1,22 @@
+
+<html>
+    <title> Manage Activities </title>
+    <link rel="icon" type = "image/png" href = "Templates/title_bar_image.png">
+</html>
+
 <?php
 include "common.php";
 deny_if_not_logged_in($COOKIE_USER);
 deny_if_not_admin($isADMIN);
 
 echo do_navbar($isADMIN, 1);
-$result = get_all_activities();
+$result = get_all_activities_team();
+
+if(empty($result)) {
+    echo '<div class="viewPointsHeader"> No data to show you! :( </div>';
+    echo '<div class="viewPointsMessage"> If you believe this is a mistake, please contact an administrator </div>';
+    die();
+}
 
 session_start();
 $token = md5(rand(1000, 9999)); //you can use any encryption
@@ -13,8 +25,9 @@ $_SESSION['token'] = $token; //store it as session variable
 
 
 
-<html>
 
+
+<html>
 
 <style>
     .notfound {
@@ -25,7 +38,7 @@ $_SESSION['token'] = $token; //store it as session variable
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="styles.css">
 
-<input type='text' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
+<input type='text' id='js-txt_searchall' placeholder='Search all...' autofocus='autofocus' onfocus='this.select()'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by name...'>
 
 <table style="width:100%" border=1 frame=void rules=all>
@@ -96,7 +109,6 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        location.reload();
 
                     }
                 });
@@ -152,7 +164,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        location.reload();
+                        
 
                     }
                 });

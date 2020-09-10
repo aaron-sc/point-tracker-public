@@ -400,5 +400,11 @@ button[disabled] {
 }
 
 a {
-    color: white;
+    color: var(--glWhite);
+}
+
+select {
+    background-color: var(--bgColor);
+    color: var(--glWhite);
+    border-color: var(--glBlue);
 }

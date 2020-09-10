@@ -9,6 +9,10 @@ function deny_if_not_logged_in($COOKIE_USER){
 		clear_username_cookie($COOKIE_USER);
 		header("Location: index.php?message=resetpass");
 	}
+	if(check_if_user_is_not_in_team(get_user_id(get_username_cookie($COOKIE_USER)))) {
+		clear_username_cookie($COOKIE_USER);
+		header("Location: index.php?message=newteam");
+	}
 }
 
 function deny_if_not_admin($is_admin){
@@ -23,17 +27,18 @@ function deny_request() {
 
 function do_signup($is_admin)
 {
+	global $COOKIE_USER;
 	if ($is_admin) {
 		echo '<div class="container">
 		<form method="post">
 	
-			<input type="text" id="uname" name="uname" placeholder="Username.." required="required">
+			<input type="text" id="uname" name="uname" placeholder="Username.." required="required" autofocus="autofocus" onfocus="this.select()">
 			<input type="text" id="fname" name="fname" placeholder="First name..." required="required">
 			<input type="text" id="lname" name="lname" placeholder="Last name..." required="required">
 			<input type="password" id="pswd" name="pswd" placeholder="Password.." required="required">
 			<input type="password" id="pswdc" name="pswdc" placeholder="Confirm password.." required=required>
-			<input type="checkbox" id="isAdmin" name="isAdmin" value=1>
-			<label for="isAdmin">Admin</label><br>
+			<label for="isAdmin">Admin:</label><input type="checkbox" id="isAdmin" name="isAdmin" checked><br>
+			<br><label for="FRCTeams">FRC Team:</label><br>'.get_all_FRC_Teams_option(get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), TRUE).'
 			<input type="submit" name="submit" value="submit">
 	
 		</form>
@@ -42,11 +47,12 @@ function do_signup($is_admin)
 		echo '<div class="container">
 		<form method="post">
 	
-			<input type="text" id="uname" name="uname" placeholder="Username.." required="required">
+			<input type="text" id="uname" name="uname" placeholder="Username.." required="required" autofocus="autofocus" onfocus="this.select()">
 			<input type="text" id="fname" name="fname" placeholder="First name..." required="required">
 			<input type="text" id="lname" name="lname" placeholder="Last name..." required="required">
 			<input type="password" id="pswd" name="pswd" placeholder="Password.." required="required">
 			<input type="password" id="pswdc" name="pswdc" placeholder="Confirm password.." required="required">
+			<label for="FRCTeams">FRC Team:</label>'.get_all_FRC_Teams_option().'
 			<input type="submit" name="submit" value="submit">
 		</form>
 
@@ -143,8 +149,8 @@ function do_navbar($is_admin, $logged_in) /* add a page var to the function para
 						<div class="custom_dropdown_content">
 							<a href="Misc/terms.pdf">Terms of Use</a>
 							<a href="tutorialsAdmin.php">Tutorials</a>
-							<a href="https://mrt3216.org">Team Website</a>
-							<a href="mailto:team3216@gmail.com">Contact Us</a>
+							<a href="https://mrt3216.org">MRT 3216\'s Website</a>
+							<a href="mailto:team3216@gmail.com">Contact The Creators</a>
 							<a href="about.php">About</a>
 						</div>
 					</div>
@@ -185,8 +191,8 @@ function do_navbar($is_admin, $logged_in) /* add a page var to the function para
 					<div class="custom_dropdown_content">
 						<a href="Misc/terms.pdf">Terms of Use</a>
 						<a href="tutorialsStudent.php">Tutorials</a>
-						<a href="https://mrt3216.org">Team Website</a>
-						<a href="mailto:team3216@gmail.com">Contact Us</a>
+						<a href="https://mrt3216.org">MRT 3216\'s Website</a>
+						<a href="mailto:team3216@gmail.com">Contact The Creators</a>
 						<a href="about.php">About</a>
 						
 					</div>
@@ -213,8 +219,8 @@ function do_navbar($is_admin, $logged_in) /* add a page var to the function para
 					</button>
 					<div class="custom_dropdown_content">
 						<a href="Misc/terms.pdf">Terms of Use</a>
-						<a href="https://mrt3216.org">Team Website</a>
-						<a href="mailto:team3216@gmail.com">Contact Us</a>
+						<a href="https://mrt3216.org">MRT 3216\'s Website</a>
+						<a href="mailto:team3216@gmail.com">Contact The Creators</a>
 					</div>
 				</div>
 			</li>

@@ -5,7 +5,7 @@ deny_if_not_logged_in($COOKIE_USER);
 echo do_navbar($isADMIN, 1);
 $result = get_student_details(get_user_id(get_username_cookie($COOKIE_USER)));
 
-echo '<div class="normalHeader"> Welcome ' . get_username_cookie($COOKIE_USER) . '! Here are your details!</div><br><br><br><br>';
+echo '<div class="normalHeader"> Welcome ' . get_first_name(get_user_id(get_username_cookie($COOKIE_USER))) . '! Here are your details!</div><br><br><br><br>';
 
 session_start();
 $token = md5(rand(1000, 9999)); //you can use any encryption
@@ -31,6 +31,7 @@ $_SESSION['token'] = $token; //store it as session variable
             <td id="theadOverider"> Username </td>
             <td id="theadOverider"> Edit </td>
             <td id="theadOverider"> Reset </td>
+            <td id="theadOverider"> Team </td>
         </tr>
     </thead>
     <tbody>
@@ -44,6 +45,7 @@ $_SESSION['token'] = $token; //store it as session variable
                 <td><input type="text" class="js-username" value="<?php echo escape($user["Uname"]); ?>"></td>
                 <td> <button class="js-edit" type="submit" id="<?php echo escape($user["Id"]); ?>"> Edit User </button> </td>
                 <td> <button class="js-resetpass" type="submit" id="<?php echo escape($user["Id"]); ?>"> Reset Password </button> </td>
+                <td> <button class="js-changeteam" type="submit" id="<?php echo escape($user["Id"]); ?>"> Change Team </button> </td>
             </tr>
 
         <?php } ?>
@@ -52,7 +54,7 @@ $_SESSION['token'] = $token; //store it as session variable
 
 <script>
     $(document).ready(function() {
-
+        // Reset password
         $(".js-resetpass").click(function() {
             // Get the ID of the button
             var butt = $(this);
@@ -68,8 +70,8 @@ $_SESSION['token'] = $token; //store it as session variable
             };
 
             // Confirm
-            var toLog = confirm("Are you sure you want to reset your password?");
-            if (toLog) {
+            var reset = confirm("Are you sure you want to reset your password?");
+            if (reset) {
                 $.ajax({
                     url: 'resetUserPass.php',
                     method: 'POST',
@@ -77,6 +79,36 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         window.location.href = "index.php?message=resetpass";
+                    }
+                });
+            }
+        });
+
+        // Change team
+        $(".js-changeteam").click(function() {
+            // Get the ID of the button
+            var butt = $(this);
+            var Id = butt.attr('id');
+
+            var tr = $(this).parent().parent();
+
+
+            var request = {
+                Id: Id,
+                token: '<?php echo $token; ?>',
+                is_ajax: 1
+            };
+
+            // Confirm
+            var changeTeam = confirm("Are you sure you want to change your FRC Team?");
+            if (changeTeam) {
+                $.ajax({
+                    url: 'changeUserTeam.php',
+                    method: 'POST',
+                    data: request,
+                    success: function(response) {
+                        alert(response);
+                        window.location.href = "index.php?message=newteam";
                     }
                 });
             }
@@ -110,8 +142,8 @@ $_SESSION['token'] = $token; //store it as session variable
             };
 
             // Confirm
-            var toLog = confirm("Are you sure you want to edit your details?");
-            if (toLog) {
+            var edit = confirm("Are you sure you want to edit your details?");
+            if (edit) {
                 $.ajax({
                     url: 'editUser.php',
                     method: 'POST',

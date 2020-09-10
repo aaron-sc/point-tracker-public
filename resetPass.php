@@ -17,12 +17,16 @@ if (isset($_POST['submit'])) {
 
 	if($reset) {
 		if(compare_passwords($password, $passwordc)) {
-            reset_password(get_user_id($uname), $password);
-            echo "<div class=normalHeader> Success! Please Log In! </div>";
+            if(reset_password(get_user_id($uname), $password)) {
+                echo "<div class=normalHeader> Success! Please Log In! </div>";
+            }
+            else {
+                echo "<div class=warningHeader> An Error Occured! </div>";
+            }
         }
     }
     else {
-        echo "<div class=warningHeader> You are not eligible for a password reset. Contact an administrator if you wish to.</div>";
+        echo "<div class=warningHeader> You are not eligible for a password reset, you can change yours on the \"My Account\" Page.</div>";
     }
 }
 

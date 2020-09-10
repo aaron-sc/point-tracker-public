@@ -1,3 +1,8 @@
+<html>
+    <title> Student Tutorials </title>
+    <link rel="icon" type = "image/png" href = "Templates/title_bar_image.png">
+</html>
+
 <?php
 
 include "common.php";

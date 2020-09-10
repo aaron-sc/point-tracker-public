@@ -4,7 +4,13 @@ deny_if_not_logged_in($COOKIE_USER);
 deny_if_not_admin($isADMIN);
 
 echo do_navbar($isADMIN, 1);
-$result = get_all_categories();
+$result = get_all_categories_team();
+
+if(empty($result)) {
+    echo '<div class="viewPointsHeader"> No data to show you! :( </div>';
+    echo '<div class="viewPointsMessage"> If you believe this is a mistake, please contact an administrator </div>';
+    die();
+}
 
 session_start();
 $token = md5(rand(1000, 9999)); //you can use any encryption
@@ -81,7 +87,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        location.reload();
+                        
 
                     }
                 });
@@ -116,7 +122,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        location.reload();
+                        
 
                     }
                 });

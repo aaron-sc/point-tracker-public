@@ -26,7 +26,7 @@ if ($result == FALSE) {
 <link rel="stylesheet" href="styles.css">
 <br>
 <div class="normalHeader"> Personal Breakdown Of Points and Activities </div>
-<input type='text' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
+<input type='text' id='js-txt_searchall' placeholder='Search all...' autofocus='autofocus' onfocus='this.select()'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by category...'>
 
 <table style="width:100%" border=1 frame=void rules=all>

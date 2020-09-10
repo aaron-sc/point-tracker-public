@@ -32,7 +32,7 @@ $_SESSION['token'] = $token; //store it as session variable
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="styles.css">
 
-<input type='text' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
+<input type='text' id='js-txt_searchall' placeholder='Search all...' autofocus='autofocus' onfocus='this.select()'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by activity name...'>
 
 <table style="width:100%" border=1 frame=void rules=all>
@@ -92,7 +92,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         tr.remove();
                         alert(response);
-                        location.reload();
+                        
                     }
                 });
             }
@@ -125,7 +125,7 @@ $_SESSION['token'] = $token; //store it as session variable
                         $("#js-activitiestobeverified").html("");
                         $("#js-approveall").hide();
                         alert(response);
-                        location.reload();
+                        
 
                     }
                 });

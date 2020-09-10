@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 <div class="container">
     <form action=addCategory.php method="POST">
 
-        <input type="text" id="catName" name="catName" placeholder="Category Name.." required="required">
+        <input type="text" id="catName" name="catName" placeholder="Category Name.." required="required" autofocus='autofocus' onfocus='this.select()'>
         <input type="submit" name="submit" value="Submit">
 
     </form>

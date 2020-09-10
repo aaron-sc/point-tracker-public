@@ -1,3 +1,8 @@
+<html>
+    <title> Manage Users </title>
+    <link rel="icon" type = "image/png" href = "Templates/title_bar_image.png">
+</html>
+
 <?php
 include "common.php";
 deny_if_not_logged_in($COOKIE_USER);
@@ -19,7 +24,7 @@ $_SESSION['token'] = $token; //store it as session variable
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="styles.css">
 
-<input type='text' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
+<input type='text' id='js-txt_searchall' autofocus='autofocus' onfocus='this.select()' placeholder='Search all...'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by username...'>
 <br>
 
@@ -34,6 +39,7 @@ $_SESSION['token'] = $token; //store it as session variable
             <td id="theadOverider"> Delete </td>
             <td id="theadOverider"> Edit </td>
             <td id="theadOverider"> Reset </td>
+            <td id="theadOverider"> Kick </td>
         </tr>
     </thead>
     <tbody>
@@ -51,6 +57,8 @@ $_SESSION['token'] = $token; //store it as session variable
                 <td> <button disabled class="js-delete" type="submit" id="<?php echo escape($user["Id"]); ?>"> Delete User </button> </td>
                 <td> <button class="js-edit" type="submit" id="<?php echo escape($user["Id"]); ?>"> Edit User </button> </td>
                 <td> <button class="js-resetpass" type="submit" id="<?php echo escape($user["Id"]); ?>"> Reset Password </button> </td>
+                <td> <button class="js-changeteam" type="submit" id="<?php echo escape($user["Id"]); ?>"> Remove From Team </button> </td>
+
             </tr>
 
         <?php } ?>
@@ -84,8 +92,38 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        location.reload();
+                        
 
+                    }
+                });
+            }
+        });
+
+                // Change team
+                $(".js-changeteam").click(function() {
+            // Get the ID of the button
+            var butt = $(this);
+            var Id = butt.attr('id');
+
+            var tr = $(this).parent().parent();
+
+
+            var request = {
+                Id: Id,
+                token: '<?php echo $token; ?>',
+                is_ajax: 1
+            };
+
+            // Confirm
+            var changeTeam = confirm("Are you sure you want to change your FRC Team?");
+            if (changeTeam) {
+                $.ajax({
+                    url: 'changeUserTeam.php',
+                    method: 'POST',
+                    data: request,
+                    success: function(response) {
+                        alert(response);
+                        window.location.href = "index.php?message=newteam";
                     }
                 });
             }
@@ -114,7 +152,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        location.reload();
+                        
                     }
                 });
             }
@@ -156,7 +194,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        location.reload();
+                        
                     }
                 });
             }

@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
 <div class="container">
 	<form action=addActivity.php method="POST">
 
-		<input type="text" id="actName" name="actName" placeholder="Acitivity Name.." required="required">
+		<input type="text" id="actName" name="actName" placeholder="Acitivity Name.." required="required" autofocus='autofocus' onfocus='this.select()'>
 		<input type="number" min="1" id="actPoints" name="actPoints" placeholder="Activity Points.." required="required">
 		<input type="text" id="actDesc" name="actDesc" placeholder="Activity Description.." required="required">
 		<label for="categories">Category: </label>

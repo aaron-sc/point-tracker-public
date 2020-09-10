@@ -35,7 +35,7 @@ $_SESSION['token'] = $token; //store it as session variable
 <link rel="stylesheet" href="styles.css">
 <br>
 
-<input type='text' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
+<input type='text' id='js-txt_searchall' placeholder='Search all...' autofocus='autofocus' onfocus='this.select()'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by activity name...'>
 
 <table style="width:100%" border=1 frame=void rules=all>
@@ -98,7 +98,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        location.reload();
+                        
                         
                     }
                 });

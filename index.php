@@ -12,16 +12,21 @@ if (isset($_POST['submit'])) {
 	$password = $_POST['pswd'];
 
 	$reset = check_if_pass_reset(get_user_id($uname));
+	$team = check_if_user_is_not_in_team(get_user_id($uname));
 	$login = log_in_user($uname, $password);
 
-	if($reset) {
-		echo "<div class='warningHeader'>PLEASE RESET YOUR PASSWORD!</div>";
-	} else if ($login == TRUE) {
+	if(!$reset && !$team && $login == TRUE) {
 		setcookie($COOKIE_USER, $uname, time() + (86400 * 14)); 
 		header("Location: landing.php");
+		
+	} else if ($login == TRUE && !$team) {
+		echo "<div class='warningHeader'>PLEASE RESET YOUR PASSWORD!</div>";
+	}
+	else if(!$team) {
+		echo "<div class='warningHeader'>User doesn't exist</div>";
 	}
 	else {
-		echo "<div class='warningHeader'>User doesn't exist</div>";
+		echo "<div class='warningHeader'>Go Choose a new FRC Team!</div>";
 	}
 }
 
@@ -32,6 +37,9 @@ if (isset($_GET['message'])) {
 	}
 	if($param == "resetpass" && !$reset) {
 		echo "<div class='warningHeader'>PLEASE RESET YOUR PASSWORD!</div>";
+	}
+	if($param == "newteam" && !$team) {
+		echo "<div class='warningHeader'>Go Choose a new FRC Team!</div>";
 	}
 }
 
@@ -50,11 +58,14 @@ echo do_navbar(0,0);
 <div class="container">
 	<form method="post">
 
-		<input type="text" id="uname" name="uname" placeholder="Username.." required="required">
+		<input type="text" id="uname" name="uname" placeholder="Username.." required="required" autofocus="autofocus" onfocus="this.select()">
 		<input type="password" id="pswd" name="pswd" placeholder="Password.." required="required">
 		<input type="submit" name="submit" value="Log In">
 	</form>
 	<a href="resetPass.php"><button>Reset Password</button></a>
+	<br>
+	<br>
+	<a href="changeTeam.php"><button>Change Team</button></a>
 </div>
 
 

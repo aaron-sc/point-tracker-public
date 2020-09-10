@@ -27,7 +27,7 @@ if ($result == FALSE) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <br>
 <div class="normalHeader"> Global Breakdown Of Points and Activities </div>
-<input type='text' id='js-txt_name' placeholder='Search by category...'>
+<input type='text' id='js-txt_name' placeholder='Search by category...' autofocus='autofocus' onfocus='this.select()'>
 
 <table style="width:100%" border=1 frame=void rules=all>
 

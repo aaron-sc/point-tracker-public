@@ -29,7 +29,7 @@ if ($result == FALSE) {
 <br>
 <div class="normalHeader"> Global Stats </div>
 <br>
-<input type='text' id='js-txt_name' placeholder='Search by name...'>
+<input type='text' id='js-txt_name' placeholder='Search by name...' autofocus='autofocus' onfocus='this.select()'>
 <table style="width:100%" border=1 frame=void rules=all>
 
     <thead>

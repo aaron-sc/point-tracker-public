@@ -28,6 +28,7 @@ if (isset($_POST['submit'])) {
 	$Lname = $_POST['lname'];
 	$password = $_POST['pswd'];
 	$passwordc = $_POST['pswdc'];
+	$teamnum = $_POST['FRCTeams'];
 
 	$postADMIN = $_POST['isAdmin'];
 
@@ -39,7 +40,7 @@ if (isset($_POST['submit'])) {
 	}
 
 	if ((compare_passwords($password, $passwordc)) && user_exists(($username)) && $username != "") {
-		if (sign_up_user($username, $password, $admin, $Fname, $Lname) === TRUE) {
+		if (sign_up_user($username, $password, $admin, $Fname, $Lname, $teamnum) === TRUE) {
 			echo ("<div class='goodHeader'>".$username . " added!</div>");
 		} else {
 			echo "<div class='warningHeader'>An error occured</div>";
