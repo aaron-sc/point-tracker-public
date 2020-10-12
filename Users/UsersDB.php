@@ -109,7 +109,7 @@ function user_exists($uname)
 	}
 }
 
-function is_admin($uname)
+function is_admin($uid)
 {
 	try {
 
@@ -117,10 +117,10 @@ function is_admin($uname)
 
 		$sql = "SELECT Admin
           FROM Users
-          WHERE Uname = :uname";
+          WHERE Id = :Id";
 
 		$statement = $connection->prepare($sql);
-		$statement->bindParam(':uname', $uname, PDO::PARAM_STR);
+		$statement->bindParam(':Id', $uid, PDO::PARAM_STR);
 		$statement->execute();
 
 		$result = $statement->fetchAll();
@@ -134,7 +134,7 @@ function is_admin($uname)
 	}
 }
 
-function get_username_cookie($COOKIE_USER)
+function get_uid_cookie($COOKIE_USER)
 {
 	if (isset($_COOKIE[$COOKIE_USER])) {
 		return ($_COOKIE[$COOKIE_USER]);

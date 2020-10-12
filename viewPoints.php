@@ -13,10 +13,10 @@ echo do_navbar($isADMIN, 1);
 
 
 
-if (get_points(get_user_id(get_username_cookie($COOKIE_USER))) != "") {
-    echo ('<div class="normalHeader"> You currently have ' . get_points(get_user_id(get_username_cookie($COOKIE_USER))) . ' point(s)! Activity Log: </div>');
+if (get_points(get_uid_cookie($COOKIE_USER)) != "") {
+    echo ('<div class="normalHeader"> You currently have ' . get_points(get_uid_cookie($COOKIE_USER)) . ' point(s)! Activity Log: </div>');
 }
-$result = view_user_activities(get_user_id(get_username_cookie($COOKIE_USER)));
+$result = view_user_activities(get_uid_cookie($COOKIE_USER));
 if ($result == FALSE) {
     echo '<div class="viewPointsHeader"> You either have no pending/accepted activities, or there is an error! </div>';
     echo '<div class="viewPointsMessage"> If you believe this is a mistake, please contact an administrator </div>';
@@ -42,7 +42,6 @@ $_SESSION['token'] = $token; //store it as session variable
 
     <thead>
         <tr>
-            <td> Name</td>
             <td> Activity Name </td>
             <td> Point Value </td>
             <td> Category </td>
@@ -56,7 +55,6 @@ $_SESSION['token'] = $token; //store it as session variable
         </tr>
         <?php foreach ($result as $activity) { ?>
             <tr id=<?php echo escape($activity["Id"]); ?>>
-                <td><?php echo (escape($activity["Fname"]) . " " . escape($activity["Lname"])); ?></td>
                 <td> <?php echo escape($activity["ActivityName"]); ?> </td>
                 <td> <?php echo escape($activity["ActivityPV"]); ?> </td>
                 <td> <?php echo escape($activity["CatName"]); ?> </td>
@@ -98,7 +96,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        
+                        location.reload();
                         
                     }
                 });
@@ -137,7 +135,7 @@ $_SESSION['token'] = $token; //store it as session variable
         $('table tbody tr').hide();
 
         // Count total search result
-        var len = $('table tbody tr:not(.notfound) td:nth-child(2):contains("' + search + '")').length;
+        var len = $('table tbody tr:not(.notfound) td:nth-child(1):contains("' + search + '")').length;
 
         if (len > 0) {
             // Searching text in columns and show match row

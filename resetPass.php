@@ -40,8 +40,8 @@ echo do_navbar(0,0);
 	<form method="post">
         <h2 class="normalHeader">Please Reset Your Password!</h2>
 		<input type="text" id="uname" name="uname" placeholder="Username.." required="required">
-        <input type="password" id="pswd" name="pswd" placeholder="New Password.." required="required">
-        <input type="password" id="pswdc" name="pswdc" placeholder="Confirm New Password.." required="required">
+        <input type="password" pattern=".{6,60}" title="6 to 60 Characters" id="pswd" name="pswd" placeholder="New Password.." required="required">
+        <input type="password" pattern=".{6,60}" title="6 to 60 Characters" id="pswdc" name="pswdc" placeholder="Confirm New Password.." required="required">
 		<input class="js-submit" type="submit" name="submit" value="submit">
 
 	</form>

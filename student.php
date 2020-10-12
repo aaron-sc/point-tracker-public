@@ -3,9 +3,9 @@ include "common.php";
 deny_if_not_logged_in($COOKIE_USER);
 
 echo do_navbar($isADMIN, 1);
-$result = get_student_details(get_user_id(get_username_cookie($COOKIE_USER)));
+$result = get_student_details(get_uid_cookie($COOKIE_USER));
 
-echo '<div class="normalHeader"> Welcome ' . get_first_name(get_user_id(get_username_cookie($COOKIE_USER))) . '! Here are your details!</div><br><br><br><br>';
+echo '<div class="normalHeader"> Welcome ' . get_first_name(get_uid_cookie($COOKIE_USER)) . '! Here are your details!</div><br><br><br><br>';
 
 session_start();
 $token = md5(rand(1000, 9999)); //you can use any encryption

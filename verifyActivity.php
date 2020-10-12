@@ -10,8 +10,8 @@ deny_if_not_logged_in($COOKIE_USER);
 deny_if_not_admin($isADMIN);
 echo do_navbar($isADMIN, 1);
 
-$result = verify_activities(get_user_id(get_username_cookie($COOKIE_USER)));
-$count = count_activities_to_be_verified(get_user_id(get_username_cookie($COOKIE_USER)));
+$result = verify_activities(get_uid_cookie($COOKIE_USER));
+$count = count_activities_to_be_verified(get_uid_cookie($COOKIE_USER));
 if ($count == 0) {
     echo '<div class="verifyActivityHeader"> You have no activities to approve! </div>';
     die();
@@ -43,6 +43,8 @@ $_SESSION['token'] = $token; //store it as session variable
             <td id="theadOverider"> Activity Name </td>
             <td id="theadOverider"> Priority </td>
             <td id="theadOverider"> Point Value </td>
+            <td id="theadOverider"> Date Completed </td>
+            <td id="theadOverider"> Delete </td>
         </tr>
     </thead>
     <tbody id="js-activitiestobeverified">
@@ -55,6 +57,7 @@ $_SESSION['token'] = $token; //store it as session variable
                 <td> <?php echo escape($activity["ActivityName"]); ?> </td>
                 <td> <?php echo get_priority((int) escape($activity["Priority"])); ?> </td>
                 <td> <?php echo escape($activity["ActivityPV"]); ?> </td>
+                <td> <?php echo escape($activity["DC"]); ?> </td>
                 <td> <button class="js-delete" type="submit" id=<?php echo escape($activity["Id"]); ?>> Delete </button> </td>
             </tr>
 
@@ -92,6 +95,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         tr.remove();
                         alert(response);
+                        location.reload();
                         
                     }
                 });
@@ -125,6 +129,7 @@ $_SESSION['token'] = $token; //store it as session variable
                         $("#js-activitiestobeverified").html("");
                         $("#js-approveall").hide();
                         alert(response);
+                        location.reload();
                         
 
                     }

@@ -87,7 +87,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     success: function(response) {
                         alert(response);
                         tr.remove();
-                        
+                        location.reload()
 
                     }
                 });
@@ -122,7 +122,7 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        
+                        location.reload()
 
                     }
                 });

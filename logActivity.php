@@ -10,7 +10,7 @@ deny_if_not_logged_in($COOKIE_USER);
 
 echo do_navbar($isADMIN, 1);
 $result = get_visible_activities();
-$userId = get_user_id(get_username_cookie($COOKIE_USER));
+$userId = get_uid_cookie($COOKIE_USER);
 
 if(empty($result)) {
     echo '<div class="viewPointsHeader"> No data to show you! :( </div>';
@@ -21,6 +21,7 @@ if(empty($result)) {
 session_start();
 $token = md5(rand(1000, 9999)); //you can use any encryption
 $_SESSION['token'] = $token; //store it as session variable
+date_default_timezone_set(get_team_timezone(get_FRC_team_user($userId)));
 ?>
 
 
@@ -36,7 +37,10 @@ $_SESSION['token'] = $token; //store it as session variable
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="jquery-ui.css">
 
 <input type='text' autofocus='autofocus' onfocus='this.select()' id='js-txt_searchall' placeholder='Search all...'>&nbsp;
 <input type='text' id='js-txt_name' placeholder='Search by name...'>
@@ -78,22 +82,66 @@ $_SESSION['token'] = $token; //store it as session variable
     </tbody>
 </table>
 
+<div id="dialog-form" title="Log Activity">
+  <p class="validateTips">Please Verify Info Below</p>
+ 
+  <form>
+    <fieldset>
+      <label style="color:black;" for="datelog">Date Completed:</label>
+      <input type="date" name="datelog" required="required"  id="datelog" max="<?php echo date('Y-m-d') ?>" min="<?php echo date('Y-m-d', strtotime("-2 week")); ?>" value="<?php echo date('Y-m-d') ?>" class="text ui-widget-content ui-corner-all">
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
+
 <script>
     $(document).ready(function() {
-        $(".js-log").click(function() {
-            // Get the ID of the button
-            var butt = $(this);
-            var Id = butt.attr('id');
+        var dialog, form, butt, Id, tr,
+        date = $( "#datelog" ),
+        dateToRecord,
+        allFields = $( [] ).add( date ),
+        tips = $( ".validateTips" );
 
 
-            var tr = $(this).parent().parent();
+        dialog = $( "#dialog-form" ).dialog({
+        autoOpen: false,
+        height: 400,
+        width: 350,
+        modal: true,
+        buttons: {
+            Cancel: function() {
+            dialog.dialog( "close" );
+            },
+            Submit: function() {
+                logActivity();
+                dialog.dialog( "close" );
+            }
+        },
+        close: function() {
+            form[ 0 ].reset();
+            allFields.removeClass( "ui-state-error" );
+        }
+        });
+    
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            // If submitted (enter key)
+            logActivity();
+        });
+
+        function logActivity() {
+            date = new Date(date.val());
+            day = date.getDate()+1;
+            month = date.getMonth() + 1;
+            year = date.getFullYear();
+            dateToRecord = [month, day, year].join('/');
 
             var request = {
                 Id: Id,
+                dateToRecord: dateToRecord,
                 token: '<?php echo $token; ?>',
                 is_ajax: 1
             };
-
             // Confirm
             var toLog = confirm("Are you sure you want to log this?");
             // log the record
@@ -104,10 +152,27 @@ $_SESSION['token'] = $token; //store it as session variable
                     data: request,
                     success: function(response) {
                         alert(response);
-                        
+                        location.reload();
                     }
                 });
             }
+        }
+        
+
+        $('#dialog').dialog({
+                autoOpen: false,
+                title: 'Basic Dialog'
+            });
+            $('#contactUs').click(function () {
+                $('#dialog').dialog('open');
+            });
+        $(".js-log").click(function() {
+            // Get the ID of the button
+            dialog.dialog( "open" );
+            butt = $(this);
+            Id = butt.attr('id');
+            tr = $(this).parent().parent();
+            
         });
 
         // Search all columns
@@ -163,5 +228,4 @@ $_SESSION['token'] = $token; //store it as session variable
         };
     });
 </script>
-
 </html>

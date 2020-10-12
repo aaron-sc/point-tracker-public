@@ -17,7 +17,7 @@ function get_points($u_id)
 
 		$statement = $connection->prepare($sql);
 		$statement->bindParam(':Id', $u_id, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 
 		$result = $statement->fetchAll();

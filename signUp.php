@@ -13,7 +13,7 @@ include "common.php";
  */
 
 
-if(get_username_cookie($COOKIE_USER)) {
+if(get_uid_cookie($COOKIE_USER)) {
 	echo do_navbar($isADMIN, 1);
 }
 else {
@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
 		$admin = 0;
 	}
 	else {
-		$admin = $_POST['isAdmin'];
+		$admin = 1;
 	}
 
 	if ((compare_passwords($password, $passwordc)) && user_exists(($username)) && $username != "") {

@@ -9,10 +9,11 @@ include "Points/points.php";
 include "Categories/CategoriesDB.php";
 include "FRCTeams/FRCTeamsDB.php";
 
-$isADMIN = is_admin(get_username_cookie($COOKIE_USER));
+$isADMIN = is_admin(get_uid_cookie($COOKIE_USER));
 
-# Change this if your domain changes (or if you're using an IP)
-$SERVER = "https://points.mrt3216.org/";
+//  Change this if your domain changes (or if you're using an IP)
+// $SERVER = "https://points.mrt3216.org/";
+$SERVER = "http://localhost/";
 
 //escapes html for output
 function escape($html) {

@@ -10,7 +10,7 @@ include "common.php";
 deny_if_not_logged_in($COOKIE_USER);
 
 
-if (get_username_cookie($COOKIE_USER)) {
+if (get_uid_cookie($COOKIE_USER)) {
 	echo do_navbar($isADMIN, 1);
 } else {
 	//echo do_navbar($isADMIN, 0);
@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
 		<?php echo get_all_categories_option(); ?>
 		<br>
 		<label for="priority">Priority: </label>
-		<?php echo priority_dropdown(2); ?>
+		<?php echo priority_dropdown(1); ?>
 		<br>
 		<label for="logonce">Users Can Only Log One Occurance: </label>
 		<input type="checkbox" id="logonce" name="logonce">

@@ -10,7 +10,7 @@ include "common.php";
 deny_if_not_logged_in($COOKIE_USER);
 
 
-if (get_username_cookie($COOKIE_USER)) {
+if (get_uid_cookie($COOKIE_USER)) {
     echo do_navbar($isADMIN, 1);
 } else {
     //echo do_navbar($isADMIN, 0);

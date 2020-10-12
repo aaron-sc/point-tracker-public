@@ -9,3 +9,11 @@ include "common.php";
 clear_username_cookie($COOKIE_USER);
 echo do_navbar(0,0);
 ?>
+
+<html>
+
+<body>
+<div class='goodHeader'>Logged Out! You can log back in with the buttons above.</div>
+</body>
+
+</html>

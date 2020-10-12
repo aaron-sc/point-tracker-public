@@ -38,12 +38,12 @@ function add_activity($name, $points, $desciption, $visible, $onelog, $prioity, 
 		$statement->bindParam(':name', $name, PDO::PARAM_STR);
 		$statement->bindParam(':pv', $points, PDO::PARAM_STR);
 		$statement->bindParam(':description', $desciption, PDO::PARAM_STR);
-		$statement->bindParam(':Id', get_user_id(get_username_cookie($COOKIE_USER)), PDO::PARAM_STR);
+		$statement->bindParam(':Id', get_uid_cookie($COOKIE_USER), PDO::PARAM_STR);
 		$statement->bindParam(':vis', $visible, PDO::PARAM_STR);
 		$statement->bindParam(':one', $onelog, PDO::PARAM_STR);
 		$statement->bindParam(':cat', $cat, PDO::PARAM_STR);
 		$statement->bindParam(':pri', $prioity, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		return TRUE;
 	} catch (PDOException $error) {
@@ -52,17 +52,18 @@ function add_activity($name, $points, $desciption, $visible, $onelog, $prioity, 
 	}
 }
 
-function add_activity_to_user($userid, $activityid)
+function add_activity_to_user($userid, $activityid, $datecomp)
 {
 	try {
 		$connection = create_PDO_connection();
 
-		$new_user_activity = "INSERT INTO UserActivity (UserId, ActivityId) VALUES (:uid,:actid)";
+		$new_user_activity = "INSERT INTO UserActivity (UserId, ActivityId, DateCompleted) VALUES (:uid,:actid, :datecomp)";
 
 		$statement = $connection->prepare($new_user_activity);
 
 		$statement->bindParam(':uid', $userid, PDO::PARAM_STR);
 		$statement->bindParam(':actid', $activityid, PDO::PARAM_STR);
+		$statement->bindParam(':datecomp', $datecomp, PDO::PARAM_STR);
 		$statement->execute();
 		return TRUE;
 	} catch (PDOException $error) {
@@ -79,7 +80,7 @@ function get_visible_activities() {
 		ORDER BY Activities.Priority DESC';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		
 		$result = $statement->fetchAll();
@@ -98,7 +99,7 @@ function get_all_activities_team() {
 		$SQL='SELECT * FROM Activities WHERE TeamNumber = :teamnum ';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		
 		$result = $statement->fetchAll();
@@ -122,7 +123,7 @@ function count_activities_to_be_verified($UserId) {
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
 		$statement->bindParam(':Id', $UserId, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		
 		$result = $statement->fetchAll();
@@ -147,7 +148,7 @@ function check_if_activity_can_only_be_logged_once($UserId, $ActId) {
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
 		$statement->bindParam(':Id', $UserId, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->bindParam(':actid', $ActId, PDO::PARAM_STR);
 		$statement->execute();
 		
@@ -177,7 +178,7 @@ function activity_previously_logged($UserId, $ActId) {
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
 		$statement->bindParam(':Id', $UserId, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->bindParam(':actid', $ActId, PDO::PARAM_STR);
 		$statement->execute();
 		
@@ -198,14 +199,14 @@ function activity_previously_logged($UserId, $ActId) {
 function verify_activities($UserId) {
 	global $COOKIE_USER;
 	try {
-		$SQL='SELECT DISTINCT UserActivity.Id AS Id, Activities.Priority AS Priority, Users.Fname, Users.Lname, Activities.Name AS ActivityName, Activities.PV AS ActivityPV 
+		$SQL='SELECT DISTINCT UserActivity.Id AS Id, UserActivity.DateCompleted AS DC, Activities.Priority AS Priority, Users.Fname, Users.Lname, Activities.Name AS ActivityName, Activities.PV AS ActivityPV 
 		FROM UserActivity
 		LEFT OUTER JOIN Users ON UserActivity.UserId = Users.Id 
 		LEFT OUTER JOIN Activities On UserActivity.ActivityId = Activities.Id 
 		WHERE Activities.UserId = :Id AND UserActivity.Approved = 0 AND Activities.TeamNumber = :teamnum';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->bindParam(':Id', $UserId, PDO::PARAM_STR);
 		$statement->execute();
 		
@@ -265,7 +266,7 @@ function view_user_activities($UserId) {
 		WHERE UserActivity.UserId = :Id AND Activities.TeamNumber = :teamnum';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->bindParam(':Id', $UserId, PDO::PARAM_STR);
 		$statement->execute();
 		
@@ -331,7 +332,7 @@ function update_activity($name, $des, $pv, $id, $vis, $onelog, $prioity, $catId)
 			GROUP BY Users.Id;';
 			$connection = create_PDO_connection();
 			$statement = $connection->prepare($SQL);
-			$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+			$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 			$statement->bindParam(':id', $uid, PDO::PARAM_STR);
 			$statement->execute();
 
@@ -355,7 +356,7 @@ function update_activity($name, $des, $pv, $id, $vis, $onelog, $prioity, $catId)
 			GROUP BY Users.Id;';
 			$connection = create_PDO_connection();
 			$statement = $connection->prepare($SQL);
-			$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+			$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 			$statement->execute();
 
 			$result = $statement->fetchAll();
@@ -381,7 +382,7 @@ function update_activity($name, $des, $pv, $id, $vis, $onelog, $prioity, $catId)
 			$connection = create_PDO_connection();
 			$statement = $connection->prepare($SQL);
 			$statement->bindParam(':uid', $uid, PDO::PARAM_STR);
-			$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+			$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 			$statement->bindParam(':catid', $catid, PDO::PARAM_STR);
 			$statement->execute();
 

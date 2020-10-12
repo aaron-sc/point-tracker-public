@@ -12,7 +12,7 @@ deny_if_not_logged_in($COOKIE_USER);
 echo do_navbar($isADMIN, 1);
 
 
-$result = user_activity(get_user_id(get_username_cookie($COOKIE_USER)));
+$result = user_activity(get_uid_cookie($COOKIE_USER));
 if ($result == FALSE) {
     echo '<div class="viewPointsHeader"> No data to show you! :( </div>';
     echo '<div class="viewPointsMessage"> If you believe this is a mistake, please contact an administrator </div>';

@@ -1,11 +1,11 @@
 <?php 
-function get_all_categories_option($selectedId = 3) {
+function get_all_categories_option($selectedId = 1) {
 	global $COOKIE_USER;
 	try {
 		$SQL='SELECT * FROM Categories WHERE TeamNumber = :teamnum';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		$options="<select class='js-cat' name='categories' id='categories'>"; 
 		$result = $statement->fetchAll();
@@ -38,7 +38,7 @@ function get_all_categories_team() {
 		$SQL='SELECT * FROM Categories WHERE TeamNumber = :teamnum';
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 		$result = $statement->fetchAll();
 		return $result;
@@ -63,7 +63,7 @@ function add_category($name)
 		$statement = $connection->prepare($new_activity);
 
 		$statement->bindParam(':name', $name, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 
 		$statement->execute();
 		return TRUE;
@@ -81,7 +81,7 @@ function check_if_category_exists($name)
 		$new_activity = "SELECT Name FROM Categories WHERE Name = :name AND TeamNumber = :teamnum";
 
 		$statement = $connection->prepare($new_activity);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->bindParam(':name', $name, PDO::PARAM_STR);
 
 		$statement->execute();
@@ -156,7 +156,7 @@ function category_breakdown_user($uid) {
 
 		$statement = $connection->prepare($sql);
 		$statement->bindParam(':id', $uid, PDO::PARAM_STR);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 
 		$result = $statement->fetchAll();
@@ -182,7 +182,7 @@ function category_breakdown_all() {
 		GROUP BY Categories.Name";
 
 		$statement = $connection->prepare($sql);
-		$statement->bindParam(':teamnum', get_FRC_team_user(get_user_id(get_username_cookie($COOKIE_USER))), PDO::PARAM_STR);
+		$statement->bindParam(':teamnum', get_FRC_team_user(get_uid_cookie($COOKIE_USER)), PDO::PARAM_STR);
 		$statement->execute();
 
 		$result = $statement->fetchAll();

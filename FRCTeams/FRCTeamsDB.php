@@ -46,25 +46,36 @@ function get_all_FRC_Teams_option($selectedTeam = 3216, $disabled = FALSE) {
 		$connection = create_PDO_connection();
 		$statement = $connection->prepare($SQL);
         $statement->execute();
-        if($disabled) {
-            $options="<select disabled class='FRCTeams' name='FRCTeams' id='FRCTeams'>"; 
-        } else {
-            $options="<select class='FRCTeams' name='FRCTeams' id='FRCTeams'>"; 
-        }
+        $options="<select class='FRCTeams' name='FRCTeams' id='FRCTeams'>";
 		
 		$result = $statement->fetchAll();
-		foreach ($result as $frc) {
-			$name=$frc["Name"]; 
-			$Id=(int) $frc["TeamNumber"];
-			
-			if($selectedTeam == $Id) {
-				$options.="<option selected='selected' value=".$Id.">".$name."</option>"; 
-			}
-			else {
-				$options.="<option value=".$Id.">".$name."</option>"; 
-			}
+		if($disabled) {
+			foreach ($result as $frc) {
+				$name=$frc["Name"]; 
+				$Id=(int) $frc["TeamNumber"];
 				
-			
+				if($selectedTeam == $Id) {
+					$options.="<option selected='selected' value=".$Id.">".$name."</option>"; 
+				}
+				else {
+					$options.="<option disabled value=".$Id.">".$name."</option>"; 
+				}
+			}
+		}
+		else {
+			foreach ($result as $frc) {
+				$name=$frc["Name"]; 
+				$Id=(int) $frc["TeamNumber"];
+				
+				if($selectedTeam == $Id) {
+					$options.="<option selected='selected' value=".$Id.">".$name."</option>"; 
+				}
+				else {
+					$options.="<option value=".$Id.">".$name."</option>"; 
+				}
+					
+				
+			}
 		}
 		$options.= "</select>";
 		return $options;
@@ -130,6 +141,26 @@ function reset_user_team($userId) {
 	} catch (PDOException $error) {
 		echo $SQL . "<br>" . $error->getMessage();
 		return FALSE;
+	}
+}
+
+function get_team_timezone($teamId) {
+    try {
+
+		$connection = create_PDO_connection();
+
+		$sql = "SELECT TimeZone
+          FROM FRCTeams
+		  WHERE TeamNumber = :id";
+
+		$statement = $connection->prepare($sql);
+		$statement->bindParam(':id', $teamId, PDO::PARAM_STR);
+		$statement->execute();
+
+		$result = $statement->fetchAll();
+		return $result[0][0];
+	} catch (PDOException $error) {
+		return $error->getMessage();
 	}
 }
 ?>
